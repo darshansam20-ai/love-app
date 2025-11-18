@@ -1,13 +1,228 @@
+/* index.css — responsive + helpers for the Love App */
+
+/* ---------- Base / Reset ---------- */
+:root{
+  --bg: #fff6f8;
+  --muted: #b57b93;
+  --accent: #ff4c9e;
+  --card-max: 820px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,body,#root {
+  height: 100%;
+}
+
 body {
   margin: 0;
+  background: linear-gradient(180deg, var(--bg) 0%, #fff1f6 100%);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #111;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-kerning: normal;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* accessibility: visible focus ring for keyboard users */
+:focus {
+  outline: 3px solid rgba(255,122,168,0.18);
+  outline-offset: 2px;
+  border-radius: 6px;
 }
+
+/* code font */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-size: 0.95em;
+}
+
+/* default link */
+a { color: inherit; text-decoration: none; }
+
+/* ---------- Layout helpers ---------- */
+.container {
+  width: min(94%, var(--card-max));
+  margin: 0 auto;
+}
+
+/* center utility */
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* subtle scroll smoothing for track lists */
+.track-card, .container {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* ---------- Card / App global sizing ---------- */
+
+/* card wrapper used by App styles (keeps fluid width while capping maximum) */
+.app-card {
+  width: min(94%, var(--card-max));
+  max-width: var(--card-max);
+  margin: 0 auto;
+}
+
+/* responsive title */
+.responsive-title {
+  font-size: clamp(28px, 4.8vw, 56px);
+  line-height: 1.02;
+  margin: 0;
+}
+
+/* smaller text scaling on very small screens */
+@media (max-width: 420px){
+  .responsive-title { font-size: 28px; }
+}
+
+/* ---------- Flip card helpers ---------- */
+/*
+  Maintains an aspect ratio for cards while allowing inner absolute-positioned
+  contents (the app places a full-bleed absolute children inside)
+  Use: <div class="flip-card-wrap">...absolute children...</div>
+*/
+.flip-card-wrap{
+  position: relative;
+  width: 100%;
+  /* aspect ratio ~ 3:2 (height = 66.66% of width). tweak if you want taller */
+  padding-top: 66.66%;
+  /* ensure 3d transforms render smoothly */
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+
+/* the app already places an absolute inset:0 child — keep it compatible */
+.flip-card-wrap > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* small visual improvements */
+.flip-card-wrap img { display: block; }
+
+/* when cards are shown in a row on narrow screens stack them */
+@media (max-width: 880px){
+  .cards-row {
+    flex-direction: column !important;
+    gap: 16px !important;
+  }
+}
+
+/* ---------- Hover / Tap hint styling ---------- */
+/* Tap hint text is placed absolutely by the app — ensure legibility on small screens */
+.tap-hint {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+/* tint overlay: app uses rgba(0,0,0,0.35) — keep pointer-events none to not block clicks */
+.tint-overlay { pointer-events: none; }
+
+/* ---------- Responsive cat / gif ---------- */
+.cat-small {
+  width: 150px;
+  height: auto;
+  display: block;
+  max-width: 38vw;
+  min-width: 92px;
+}
+
+/* make cat smaller on tiny screens */
+@media (max-width: 420px) {
+  .cat-small { width: 110px; max-width: 34vw; }
+}
+
+/* ---------- Playlist / track-card ---------- */
+.track-card {
+  min-width: 220px;
+  max-width: 320px;
+  border-radius: 12px;
+}
+
+/* when viewport is narrow let track cards shrink more */
+@media (max-width: 520px) {
+  .track-card { min-width: 180px; padding: 10px; }
+  .track-card img { height: 140px; object-fit: cover; }
+}
+
+/* hide native scrollbars on WebKit but keep scrolling available */
+.track-card::-webkit-scrollbar { height: 8px; }
+.track-card::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.08); border-radius: 999px; }
+
+/* ---------- Buttons ---------- */
+button {
+  font-family: inherit;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+}
+
+/* primary buttons in the app use .btn-primary when available */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 999px;
+  padding: 10px 20px;
+  box-shadow: 0 8px 22px rgba(255,76,158,0.18);
+}
+
+/* keep large tappable areas on small screens */
+@media (max-width: 420px) {
+  .cta, .btn-primary, button { padding: 12px 18px; font-size: 15px; }
+}
+
+/* ---------- Small utilities ---------- */
+.hidden-mobile { display: inline; }
+@media (max-width: 520px){ .hidden-mobile { display: none !important; } }
+
+/* center progress bar container used by playlist/cards */
+.progress-wrap { width: min(84%, 560px); margin: 0 auto; }
+
+/* pill / badge */
+.pill {
+  display: inline-block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff1f6;
+  color: #d14a82;
+  font-weight: 700;
+}
+
+/* make images inside app responsive by default */
+img { max-width: 100%; height: auto; display: block; }
+
+/* ---------- Kiss animation helper (safety / fallback) ---------- */
+/* app injects .kiss elements inline; provide default font-smoothing and will-change */
+.kiss, .kiss-container {
+  -webkit-font-smoothing: antialiased;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* ---------- Misc polish ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* small safe defaults for printing (if user prints) */
+@media print {
+  body { background: #fff !important; color: #000 !important; }
+  .bg-deco, .float-left, .float-fast, .float-slow { display: none !important; }
+}
+
