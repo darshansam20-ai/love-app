@@ -844,7 +844,6 @@ function FinalLetterPage() {
   useLoadFonts();
   const navigate = useNavigate();
   const [sealing, setSealing] = useState(false);
-  const sealAnchorRef = useRef(null);
 
   // Simple WebAudio 'seal' sound (soft stamp)
   function playSealSound() {
