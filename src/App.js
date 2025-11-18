@@ -354,12 +354,13 @@ function PlaylistPage() {
   }, []);
 
   useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.src = tracks[current].src;
-    audio.currentTime = 0;
-    if (playing) audio.play();
-  }, [current]);
+  const audio = audioRef.current;
+  if (!audio) return;
+  audio.src = tracks[current].src;
+  audio.currentTime = 0;
+  if (playing) audio.play();
+}, [current, playing, tracks]);
+
 
   useEffect(() => {
     const audio = audioRef.current;
