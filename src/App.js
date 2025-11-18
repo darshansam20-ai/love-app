@@ -9,7 +9,6 @@ import loveStamp from "./assets/love-stamp.png";
 import card1 from "./assets/cards/card1.gif";
 import card2 from "./assets/cards/card2.gif";
 import card3 from "./assets/cards/card3.gif";
-import heartDownload from "./assets/heart.png";
 import c1 from "./assets/covers/c1.jpg";
 import c2 from "./assets/covers/c2.jpg";
 import c3 from "./assets/covers/c3.jpg";
