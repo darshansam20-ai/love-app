@@ -600,41 +600,6 @@ function FloatingDecor() {
   );
 }
 
-/* ---------- Cat doodling (upload toggle) ---------- */
-function CatDoodlingWithToggle({ drawTrigger }) {
-  const defaultGif = "https://i.gifer.com/embedded/download/2o5M.gif";
-  const [useUploaded, setUseUploaded] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-  const inputRef = useRef(null);
-  function onChoose() { inputRef.current?.click(); }
-  function onFile(e) {
-    const f = e.target.files && e.target.files[0];
-    if (!f) return;
-    const url = URL.createObjectURL(f);
-    setImageUrl(url);
-    setUseUploaded(true);
-  }
-  return (
-    <div style={{ width: 200, height: 200, display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
-      <div style={{ position: "relative" }}>
-        <img src={useUploaded && imageUrl ? imageUrl : defaultGif} alt="cat" style={{ width: 150, height: 150, borderRadius: 18, objectFit: "cover", boxShadow: "0 12px 30px rgba(30,20,50,0.12)" }} />
-        <div style={{ position: "absolute", right: 6, bottom: 6, display: "flex", gap: 8 }}>
-          <button onClick={onChoose} aria-label="Change cat image" title="Upload image" style={styles.iconBtn}>📷</button>
-          <button onClick={() => setUseUploaded((u) => !u)} aria-label="Toggle GIF/upload" title="Toggle GIF / Uploaded image" style={styles.iconBtn}>{useUploaded ? "GIF" : "IMG"}</button>
-          <input ref={inputRef} type="file" accept="image/*" onChange={onFile} style={{ display: "none" }} />
-        </div>
-
-        <motion.svg viewBox="0 0 140 140" width="140" height="140" style={{ position: "absolute", right: -8, top: -28, overflow: "visible", pointerEvents: "none" }}>
-          <motion.path d="M104 40 C92 18, 64 22, 70 48 C76 22, 46 18, 36 40 C26 64, 86 98, 104 40 Z" fill="none" stroke="#d92f5b" strokeWidth={5} strokeLinecap="round" strokeLinejoin="round" strokeDasharray={320} strokeDashoffset={drawTrigger ? 0 : 320} animate={drawTrigger ? { strokeDashoffset: [320, 0], scale: [1, 1.06, 1], opacity: [0.8, 1, 0.95] } : { strokeDashoffset: [320] }} transition={{ duration: 0.9, ease: "easeOut" }} />
-          <motion.path d="M106 42 C95 22, 68 26, 74 50 C80 26, 50 22, 40 42 C30 64, 88 96, 106 42 Z" fill="none" stroke="#ff7a9e" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" strokeDasharray={320} strokeDashoffset={drawTrigger ? 0 : 320} animate={drawTrigger ? { strokeDashoffset: [320, 0], opacity: [0.6, 1] } : { strokeDashoffset: [320] }} transition={{ duration: 1.05, ease: "easeOut" }} style={{ transformOrigin: "70px 60px" }} />
-          <motion.path d="M90 30 q6 -6 12 0" stroke="#ff4c9e" strokeWidth={2} strokeLinecap="round" fill="none" initial={{ pathLength: 0 }} animate={drawTrigger ? { pathLength: [0, 1] } : { pathLength: 0 }} transition={{ duration: 0.5, delay: 0.2 }} />
-          <motion.path d="M104 40 C92 18, 64 22, 70 48 C76 22, 46 18, 36 40 C26 64, 86 98, 104 40 Z" fill="#ff9db8" opacity={0.55} animate={drawTrigger ? { scale: [0.98, 1.08, 1], opacity: [0.4, 1, 0.9] } : { scale: 1 }} transition={{ duration: 1.1 }} style={{ transformOrigin: "70px 60px" }} />
-        </motion.svg>
-      </div>
-    </div>
-  );
-}
-
 /* ---------- Cards Page ---------- */
 function CardsPage() {
   useLoadFonts();
